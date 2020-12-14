@@ -12,6 +12,7 @@
     margin: 0.6em;
     padding: 1em 0;
     height: 9em;
+    max-width: 10em;
 }
 
 .stock * {

@@ -34,6 +34,7 @@ stockSchema.methods.recordCurrentStock = async function() {
     this.changes.push({
         change: this.lastChange
     })
+    return
 }
 
 const stockModel = mongoose.model("Stock", stockSchema)
