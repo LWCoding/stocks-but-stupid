@@ -36,6 +36,28 @@ window.onload = () => {
                 }
             })
         }
+        if (json.stocks.length === 0) {
+            for(let i = 0; i < 101; i++) {
+                setTimeout(() => {
+                    $("#balance-amount").text((json.balance) >= 0 ? "$" + (json.balance * (i / 100)).toFixed(2) : "-$" + Math.abs((json.balance * (i / 100)).toFixed(2)))
+                }, i * 10)
+            }
+            for(let i = 0; i < 101; i++) {
+                setTimeout(() => {
+                    $("#worth-amount").text((worth >= 0) ? "$" + (worth * (i / 100)).toFixed(2) : "-$" + (Math.abs(worth * (i / 100)).toFixed(2)))
+                }, i * 10)
+            }
+            if (parseInt(json.balance) > 0) {
+                $("#balance-amount").css("color", "green")
+            } else {
+                $("#balance-amount").css("color", "red")
+            }
+            if (parseInt(worth) >= parseInt(json.balance)) {
+                $("#worth-amount").css("color", "green")
+            } else {
+                $("#worth-amount").css("color", "red")
+            }
+        }
     })
     $(".bone").css("opacity", 1)
     $(".done").show()
