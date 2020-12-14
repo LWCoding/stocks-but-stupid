@@ -12,7 +12,6 @@
     margin: 0.6em;
     padding: 1em 0;
     height: 9em;
-    max-width: 10em;
 }
 
 .stock * {
@@ -36,7 +35,7 @@ button[buttonDisabled=true]:hover {
     cursor: default;
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 950px) {
     #market {
         grid-template-columns: repeat(4, 1fr);
     }
