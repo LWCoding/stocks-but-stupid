@@ -47,4 +47,10 @@ stocksRouter.get("/stocks", async (req, res) => {
     return res.status(200).send({stocks, hasMore: allStocks.length > req.query.limit})
 })
 
+stocksRouter.post("/worth", async (req, res) => {
+    const stock = await Stock.findOne({ code: req.body.code })
+    if (!stock) res.status(404).send({error: "Could not find stock with specified code."})
+    return res.status(200).send({price: stock.price})
+})
+
 module.exports = stocksRouter
