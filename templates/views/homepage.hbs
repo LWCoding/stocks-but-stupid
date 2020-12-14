@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/general.css">
+    <link rel="stylesheet" href="./css/content.css">
+    <title>Stocks but Stupid - Homepage</title>
+</head>
+<body>
+    {{>navbar}}
+    <img id="thumbnail" src="./img/dollar.jpg" alt="Homepage thumbnail">
+    <div id="thumbnail-cover"></div>
+    <div id="thumbnail-push"></div>
+    <div id="message">
+        <p>It's the year 2020, and stocks have gone haywire. Will you manage to take the financial lead in this chaotic epidemic?</p>
+        <button onclick="window.location.href = '/register'" style="background: rgb(23, 96, 192); margin: 1em; font-size: 19px;">Test My Luck!</button>
+    </div>
+    <div class="divider"></div>
+    <div style="height: 20vh;" class="left-right">
+        <div style="flex: 2;">
+            <h2>Welcome!</h2>
+            <p>Hello, and welcome to <span style="color: rgb(0, 158, 0);">Stocks but Stupid</span>!
+            This website was created fully using Node.JS on the server-side and Handlebars on the
+            client-side. This project was started on 12/12/2020, and was made to relieve some boredom
+            during the coronavirus pandemic.</p>
+        </div>
+        <div class="image-portion" style="flex: 1; border-left: 2px solid black;">
+            <img height="200" src="./img/logo.png" alt="SBS Logo">
+        </div>
+    </div>
+    <div style="height: 20vh; border-bottom: none;" class="left-right">
+        <div class="image-portion" style="flex: 1; border-right: 2px solid black;">
+            <img style="border-radius: 100px;" height="200" src="./img/cupofmoney.jpg" alt="Cup of Money">
+        </div>
+        <div style="flex: 2;">
+            <h2>How Do I Start?</h2>
+            <p>To start playing, click on the <a style="letter-spacing: 0.07em; color: blue;" href="/register">Register</a> 
+            button and create an account. This website works like the normal stock market, except
+            completely simulated and fictional, even premade with custom events! This is because I 
+            don't have the money to afford the raw JSON data to real stock market prices.</p>
+        </div>
+    </div>
+</body>
+</html>

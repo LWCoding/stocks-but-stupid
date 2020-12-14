@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/general.css">
+    <link rel="stylesheet" href="./css/portfolio.css">
+    <title>Stocks but Stupid - Your Portfolio</title>
+</head>
+<body>
+    {{>navbar}}
+    <img id="thumbnail" style="height: 100vh;" src="./img/phone.jpg" alt="Register thumbnail">
+    <div id="thumbnail-cover" style="height: 100vh;"></div>
+    <div id="message">
+        <div id="button-column">
+            <img src="./img/coin.jpg" class="button bone">
+            <img src="./img/market.jpg" class="button btwo">
+            <img src="./img/question.jpg" class="button bthree">
+        </div>
+        <div class="display done">
+            <div>
+                <div style="flex: 2; font-family: Montserrat; border-right: 3px dashed black;">
+                    <p style="font-size: 36px;">Balance</p>
+                    <span style="font-size: 54px;" id="balance-amount">$0</span>
+                    <div style="height: 6vh;"></div>
+                    <p style="font-size: 36px;">Worth</p>
+                    <span style="font-size: 54px;" id="worth-amount">$0</span>
+                </div>
+                <div style="flex: 3;">
+
+                </div>
+            </div>
+        </div>
+        <div class="display dtwo">
+            <h1>Invest in Stocks</h1>
+        </div>
+        <div class="display dthree">
+            <h1>Haven't Decided Yet</h1>
+        </div>
+    </div>
+    <script src="./js/portfolio.js"></script>
+</body>
+</html>

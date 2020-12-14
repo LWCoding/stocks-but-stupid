@@ -1,0 +1,47 @@
+#message {
+    margin-top: 5vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#button-column {
+    display: flex;
+    flex-direction: column;
+    margin-right: 30px;
+}
+
+.button {
+    width: 90px;
+    height: 90px;
+    border-radius: 45px;
+    margin: 20px 0;
+    background-position: center;
+    background: white;
+    object-fit: cover;
+    opacity: 0.5;
+    transition: opacity 0.5s ease;
+    position: relative;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.display {
+    width: 60vw;
+    height: 70vh;
+    background: rgba(255, 255, 255, 0.8);
+    color: black;
+    display: none;
+    align-items: center;
+    border-radius: 10vh;
+}
+
+.display > div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

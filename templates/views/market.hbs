@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/general.css">
+    <link rel="stylesheet" href="./css/market.css">
+    <title>Stocks but Stupid - Market</title>
+</head>
+<body>
+    {{>navbar}}
+    <img id="thumbnail" src="./img/physmarket.jpg" alt="Market thumbnail">
+    <div id="thumbnail-cover"></div>
+    <div id="thumbnail-push"></div>
+    <div id="message">
+        <p style="font-size: 36px;">View the latest changes in the virtual stock market!</p>
+    </div>
+    <div class="divider"></div>
+    <div style="height: auto; margin: 2vh 3vw; padding: 1vh 1vw; background: white;">
+        <div id="market"></div>
+        <div style="text-align: center;">
+            <button id="prev-page"  buttonDisabled="true" style="margin-right: 0.5em;">Previous Page</button>
+            <button id="next-page" buttonDisabled="false" style="margin-left: 0.5em;">Next Page</button>
+        </div>
+    </div>
+    <script defer src="./js/market.js"></script>
+</body>
+</html>

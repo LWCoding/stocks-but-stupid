@@ -1,0 +1,44 @@
+.divider {
+    height: 8vh;
+    width: 100vw;
+    background: rgb(57, 61, 61);
+}
+
+.left-right {
+    display: flex;
+    flex-direction: row;
+    background: white;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 40vh;
+    border-bottom: 3px dotted black;
+}
+
+.left-right > div {
+    flex: 1;
+}
+
+.left-right h2 {
+    font-size: 24px;
+    margin-bottom: 0.5em;
+    letter-spacing: 0.04em;
+}
+
+.left-right p {
+    margin: 0 8vw;
+    font-size: 16px;
+    line-height: 1.4em;
+}
+
+@media only screen and (max-width: 900px) {
+    img {
+        height: 150px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .image-portion {
+        display: none;
+    }
+}

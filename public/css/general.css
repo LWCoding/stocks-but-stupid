@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background: rgb(190, 190, 190);
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+    font-weight: 600;
+}
+
+button, input[type=submit] {
+    background: rgb(44, 44, 44);
+    color: white;
+    padding: 0.6em 1.2em;
+    font-size: 16px;
+    border-radius: 5em;
+    border: none;
+    font-family: "Montserrat", "Roboto", Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    transition: transform 0.8s ease;
+}
+
+h2, p {
+    font-family: "Montserrat", "Roboto", Arial, Helvetica, sans-serif;
+}
+
+button:focus, input:focus, textarea:focus, input[type=submit]:focus {
+    outline: none;
+}
+
+a:visited, button:visited {
+    text-decoration: none;
+    color: white;
+}
+
+button:hover, a:hover, input[type=submit]:hover {
+    cursor: pointer;
+}
+
+button:hover, input[type=submit]:hover {
+    transform: scale(1.05);
+}
+
+#thumbnail {
+    width: 100vw;
+    height: 92vh;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+#thumbnail-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    content: " ";
+    display: block;
+    width: 100vw;
+    height: 92vh;
+    background: rgb(0, 0, 0, 0.5);
+}
+
+#message {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-weight: 700;
+    font-size: 30px;
+    color: white;
+    z-index: 2;
+}
+
+#message p, #message h1 {
+    font-family: "JetBrains Mono", "Roboto", Arial, Helvetica, sans-serif !important;
+}
+
+#thumbnail-push {
+    height: 74vh;
+    display: block;
+}
+
+@media only screen and (max-width: 700px) {
+    #message {
+        font-size: 24px !important;
+        width: 80vw;
+    }
+}

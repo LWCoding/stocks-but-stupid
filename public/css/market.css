@@ -1,0 +1,60 @@
+#market {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.stock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgb(219, 219, 219);
+    margin: 0.6em;
+    padding: 1em 0;
+    height: 9em;
+}
+
+.stock * {
+    text-align: center;
+}
+
+.code {
+    font-weight: 700;
+}
+
+.category {
+    margin: 0.1em 1em 0.2em 1em;
+}
+
+button[buttonDisabled=true] {
+    opacity: 0.6;
+}
+
+button[buttonDisabled=true]:hover {
+    transform: none;
+    cursor: default;
+}
+
+@media only screen and (max-width: 900px) {
+    #market {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    #market {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #market {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    #market {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

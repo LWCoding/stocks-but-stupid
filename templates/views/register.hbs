@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/general.css">
+    <link rel="stylesheet" href="./css/forms.css">
+    <title>Stocks but Stupid - Register</title>
+</head>
+<body>
+    {{>navbar}}
+    <img id="thumbnail" style="height: 100vh;" src="./img/stocks.jpg" alt="Register thumbnail">
+    <div id="thumbnail-cover" style="height: 100vh;"></div>
+    <div id="message">
+        <div id="data-form">
+            <h1>Register</h1>
+            <form id="register">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" autocomplete="off">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" autocomplete="off">
+                    <label for="reenter">Reenter Password</label>
+                    <input type="password" id="reenter" name="reenter" autocomplete="off">
+                <input id="register-submit" type="submit" value="Create Account">
+            </form>
+            <p id="error"></p>
+        </div>
+    </div>
+    <script src="./js/forms.js"></script>
+</body>
+</html>
