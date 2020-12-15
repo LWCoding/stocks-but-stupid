@@ -45,3 +45,47 @@
     justify-content: center;
     align-items: center;
 }
+
+label {
+    font-size: 16px;
+    margin-bottom: 0.2em;
+    font-family: "JetBrains Mono";
+}
+
+input[type=text], input[type=number] {
+    padding: 0.25em;
+    font-size: 14px;
+    font-family: "Montserrat";
+}
+
+#stock-buy, #stock-sell {
+    padding: 0.3em 0.8em;
+    border: none;
+    border-radius: 5em;
+    background: rgb(44, 44, 44);
+    color: white;
+    opacity: 0.3;
+    margin-top: 0.6em;
+}
+
+#notice {
+    display: none;
+    font-size: 20px;
+    margin-top: 1em;
+}
+
+#stock-info {
+    font-size: 20px;
+}
+
+#stock-category {
+    color: rgb(80, 80, 80);
+}
+
+#stock-border {
+    padding: 0.5em;
+    background: white;
+    border-radius: 16px;
+    margin: 24px auto 0 auto;
+    width: 60%;
+}

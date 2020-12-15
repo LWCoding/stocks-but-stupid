@@ -4,7 +4,7 @@ const appendStock = (code, price, change, category) => {
             <h2 class="code">${code}</h2>
             <p style="color: rgba(0, 0, 0, 0.6);" class="category">${(category)}</p>
             <p class="price">$${price.toFixed(2)}</p>
-            <p style="color: ${(change > 0) ? "green" : "red"}" class="change">${(change >= 0) ? "+" + change.toFixed(2) : change.toFixed(2)}</p>
+            <p style="color: ${(change > 0) ? "green" : "red"}" class="change">${(change >= 0) ? "+" + change.toFixed(2) : change.toFixed(2)}%</p>
         </div>
     `)
 }

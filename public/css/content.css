@@ -1,9 +1,3 @@
-.divider {
-    height: 8vh;
-    width: 100vw;
-    background: rgb(57, 61, 61);
-}
-
 .left-right {
     display: flex;
     flex-direction: row;

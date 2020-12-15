@@ -34,6 +34,9 @@ stockSchema.methods.recordCurrentStock = async function() {
     this.changes.push({
         change: this.lastChange
     })
+    if (this.changes.length > 10) {
+        this.changes.shift()
+    }
     return
 }
 

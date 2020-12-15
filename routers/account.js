@@ -48,16 +48,12 @@ accountRouter.post("/login", detectXSS, async (req, res) => {
 
 accountRouter.post("/retrieve", async (req, res) => {
     const token = req.session.token
-    if (!token) {
-        return res.status(400).send()
-    }
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
     const user = await User.findOne({_id: decoded, token})
     if (!user) {
-        return res.status(400).send()
+        return res.status(400).send({error: "Not authenticated."})
     }
-    req.session.user = user
-    return res.status(200).send(user)
+    return res.status(200).send(req.session.user)
 })
 
 module.exports = accountRouter
