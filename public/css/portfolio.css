@@ -125,6 +125,7 @@ input[type=text], input[type=number] {
     }
     #button-column {
         flex-direction: row;
+        margin: 0 auto;
     }
     #button-column .button {
         margin-left: 10px;
