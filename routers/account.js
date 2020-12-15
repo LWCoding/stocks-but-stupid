@@ -1,8 +1,10 @@
 const express = require("express")
 const detectXSS = require("../middleware/xss")
 const User = require("../models/user")
+const Stock = require("../models/stock")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const auth = require("../middleware/auth")
 
 const accountRouter = express.Router()
 
@@ -57,6 +59,19 @@ accountRouter.post("/retrieve", async (req, res) => {
         return res.status(400).send({error: "Not authenticated."})
     }
     return res.status(200).send(req.session.user)
+})
+
+accountRouter.post("/user-worth", auth, (req, res) => {
+    let worth = req.session.user.balance
+    req.session.user.stocks.forEach(async (stock) => {
+        let i = 0
+        const stockWorth = await Stock.findOne({code: stock.stockCode})
+        worth += (stockWorth.price - stock.stockInitial) * stock.stockCount
+        i += 1
+        if (i == req.session.user.stocks.length) {
+            return res.status(200).send({worth})
+        }
+    })
 })
 
 module.exports = accountRouter

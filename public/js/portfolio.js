@@ -1,3 +1,5 @@
+var worthVal = 0
+
 const updateNotice = () => {
     fetch("/worth", {
         method: "POST",
@@ -12,20 +14,20 @@ const updateNotice = () => {
         let i = 0, found = false
         if (stockJson.stocks.length === 0) {
             if (json.exists) {
-                $("#notice").css("color", "green").html("Clicking buy will cost $" + (json.price * (parseInt($("#stock-amount").val()) || 1)).toFixed(2) + ".").show()
+                $("#notice").css("color", "green").html("Buying will cost $" + (json.price * (parseInt($("#stock-amount").val()) || 1)).toFixed(2) + ".").show()
                 $("#stock-sell").css("opacity", 0.3)
             }
         }
         stockJson.stocks.forEach((stock) => {
             if (stock.stockCode == $("#stock-name").text()) {
                 $("#stock-sell").css("opacity", 1)
-                $("#notice").css("color", "green").html("Clicking buy will cost $" + (json.price * (parseInt($("#stock-amount").val()) || 1)).toFixed(2) + ".<br>Selling will gain you a net worth of $" + ((json.price - stock.stockInitial) * ((($("#stock-amount").val() || 1) > stock.stockCount) ? stock.stockCount : parseInt($("#stock-amount").val() || 1))).toFixed(2) + ".<br>(You have " + stock.stockCount + " of that stock.)").show()
+                $("#notice").css("color", "green").html("Buying will cost $" + (json.price * (parseInt($("#stock-amount").val()) || 1)).toFixed(2) + ". (You have " + worthVal + ".)<br>Selling will gain you a net worth of $" + ((json.price - stock.stockInitial) * ((($("#stock-amount").val() || 1) > stock.stockCount) ? stock.stockCount : parseInt($("#stock-amount").val() || 1))).toFixed(2) + ".<br>(You have " + stock.stockCount + " of that stock.)").show()
                 found = true
             }
             i += 1
             if (!found && i == stockJson.stocks.length) {
                 if (json.exists) {
-                    $("#notice").css("color", "green").html("Clicking buy will cost $" + (json.price * (parseInt($("#stock-amount").val()) || 1)).toFixed(2) + ".").show()
+                    $("#notice").css("color", "green").html("Buying will cost $" + (json.price * (parseInt($("#stock-amount").val()) || 1)).toFixed(2) + ". (You have " + worthVal + ".)").show()
                     $("#stock-sell").css("opacity", 0.3)
                 }
             }
@@ -126,7 +128,7 @@ window.onload = () => {
             }
         })
     })
-    $("#stock-sell").click(() => {
+    $("#stock-sell").click(async () => {
         fetch("/sell-stock", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -170,6 +172,7 @@ window.onload = () => {
                     }
                     for(let i = 0; i < 101; i++) {
                         setTimeout(() => {
+                            worthVal = (worth >= 0) ? "$" + (worth * (i / 100)).toFixed(2) : "-$" + (Math.abs(worth * (i / 100)).toFixed(2))
                             $("#worth-amount").text((worth >= 0) ? "$" + (worth * (i / 100)).toFixed(2) : "-$" + (Math.abs(worth * (i / 100)).toFixed(2)))
                         }, i * 10)
                     }

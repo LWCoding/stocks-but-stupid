@@ -109,8 +109,8 @@ stocksRouter.post("/sell-stock", auth, async (req, res) => {
     let newList = []
     for (let i = 0; i < req.session.user.stocks.length; i++) {
         let userStock = req.session.user.stocks[i]
-        if (userStock.stockCode === req.body.code) {
-            let limit = (req.body.count > userStock.stockCount) ? userStock.stockCount : req.body.count
+        let limit = (req.body.count > userStock.stockCount) ? userStock.stockCount : req.body.count
+        if (userStock.stockCode === req.body.code && limit == userStock.stockCount) {
             netMoney = (stock.price - userStock.stockInitial) * limit
             userStock.stockCount -= limit
             req.session.user.balance += netMoney
