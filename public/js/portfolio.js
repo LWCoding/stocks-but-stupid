@@ -10,6 +10,12 @@ const updateNotice = () => {
         })
         const stockJson = await stockRes.json()
         let i = 0, found = false
+        if (stockJson.stocks.length === 0) {
+            if (json.exists) {
+                $("#notice").css("color", "green").html("Clicking buy will cost $" + (json.price * (parseInt($("#stock-amount").val()) || 1)).toFixed(2) + ".").show()
+                $("#stock-sell").css("opacity", 0.3)
+            }
+        }
         stockJson.stocks.forEach((stock) => {
             if (stock.stockCode == $("#stock-name").text()) {
                 $("#stock-sell").css("opacity", 1)
