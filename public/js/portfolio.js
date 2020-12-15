@@ -117,7 +117,7 @@ window.onload = () => {
                 $("#stock-sell").css("opacity", 0.3)
                 $("#stock-buy").css("opacity", 0.3)
                 fetchStocks()
-                $("#notice").css("color", "green").text("Successfully purchased " + $("#stock-amount").val() + " of " + $("#stock-code").val() + "!").show()
+                $("#notice").css("color", "green").text("Successfully purchased " + $("#stock-amount").val() + " of " + $("#stock-name").text() + "!").show()
                 $("#stock-amount").val("")
                 $("#stock-code").val("")
             } else {
@@ -140,7 +140,7 @@ window.onload = () => {
                 $("#stock-sell").css("opacity", 0.3)
                 $("#stock-buy").css("opacity", 0.3)
                 fetchStocks()
-                $("#notice").css("color", "green").text("Successfully sold " + $("#stock-amount").val() + " of " + $("#stock-code").val() + " for " + json.moneyMade.toFixed(2) + "!").show()
+                $("#notice").css("color", "green").text("Successfully sold " + $("#stock-amount").val() + " of " + $("#stock-name").text() + " for " + json.moneyMade.toFixed(2) + "!").show()
                 $("#stock-amount").val("")
                 $("#stock-code").val("")
             } else {

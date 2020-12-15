@@ -84,7 +84,7 @@ button:hover, input[type=submit]:hover {
     font-weight: 700;
     font-size: 30px;
     color: white;
-    z-index: 2;
+    z-index: 1;
 }
 
 #message p, #message h1 {

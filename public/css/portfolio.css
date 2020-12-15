@@ -38,6 +38,10 @@
     border-radius: 10vh;
 }
 
+.done, .dthree {
+    pointer-events: none;
+}
+
 .display > div {
     width: 100%;
     height: 100%;
@@ -88,4 +92,47 @@ input[type=text], input[type=number] {
     border-radius: 16px;
     margin: 24px auto 0 auto;
     width: 60%;
+}
+
+@media only screen and (max-width: 950px) {
+    #stock-border {
+        padding: 0.2em;
+        margin-top: 14px;
+    }
+    #notice {
+        font-size: 18px;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    #stock-category, #stock-price, #stock-change {
+        font-size: 16px;
+    }
+    #notice {
+        font-size: 14px;
+    }
+    #balance-amount, #worth-amount {
+        font-size: 44px !important;
+    }
+    #stock-code {
+        width: 11em;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    #message {
+        flex-direction: column-reverse;
+    }
+    #button-column {
+        flex-direction: row;
+    }
+    #button-column .button {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .display {
+        width: 80vw !important;
+        height: 58vh;
+        margin-top: 7vh;
+    }
 }

@@ -81,7 +81,7 @@ stocksRouter.post("/purchase-stock", auth, async (req, res) => {
     for (let i = 0; i < req.session.user.stocks.length; i++) {
         let userStock = req.session.user.stocks[i]
         if (userStock.stockCode === req.body.code) {
-            userStock.stockCount += req.body.count
+            userStock.stockCount += parseInt(req.body.count)
             exists = true
             break
         }
