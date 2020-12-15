@@ -115,12 +115,21 @@ stocksRouter.post("/sell-stock", auth, async (req, res) => {
             userStock.stockCount -= limit
             req.session.user.balance += netMoney
         } else {
-            newList.push({
-                _id: new mongoose.Types.ObjectId,
-                stockCode: userStock.stockCode,
-                stockCount: userStock.stockCount,
-                stockInitial: userStock.stockInitial
-            })
+            if (userStock.stockCode === req.body.code) {
+                newList.push({
+                    _id: new mongoose.Types.ObjectId,
+                    stockCode: userStock.stockCode - limit,
+                    stockCount: userStock.stockCount,
+                    stockInitial: userStock.stockInitial
+                })
+            } else {
+                newList.push({
+                    _id: new mongoose.Types.ObjectId,
+                    stockCode: userStock.stockCode,
+                    stockCount: userStock.stockCount,
+                    stockInitial: userStock.stockInitial
+                })
+            }
         }
         if (i == req.session.user.stocks.length - 1) {
             req.session.user.stocks = newList
