@@ -1,0 +1,21 @@
+.article {
+    width: calc(100% - 20px);
+    background: rgb(179, 179, 179);
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+}
+
+.title {
+    font-size: 30px;
+    font-family: "Montserrat", "Roboto", Arial, Helvetica, sans-serif !important;
+}
+
+.date {
+    color: rgb(80, 80, 80);
+}
+
+.description {
+    margin: 8px 0;
+    font-style: italic;
+}

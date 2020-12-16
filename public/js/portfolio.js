@@ -173,7 +173,7 @@ window.onload = () => {
                 $("#stock-buy").css("opacity", 0.3)
                 fetchStocks()
                 updateBalance()
-                $("#notice").css("color", "green").text("Successfully sold " + $("#stock-amount").val() + " of " + $("#stock-name").text() + " for " + json.moneyMade.toFixed(2) + "!").show()
+                $("#notice").css("color", "green").text("Successfully sold " + $("#stock-amount").val() + " of " + $("#stock-name").text() + "!").show()
                 $("#stock-amount").val("")
                 $("#stock-code").val("")
             } else {

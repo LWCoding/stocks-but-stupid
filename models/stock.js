@@ -18,6 +18,14 @@ const stockSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    eventBoost: {
+        type: Number,
+        default: 0
+    },
+    eventRotations: {
+        type: Number,
+        default: 0
+    },
     changes: [{
         change: {
             type: Number,
@@ -25,7 +33,7 @@ const stockSchema = mongoose.Schema({
         },
         date: {
             type: String,
-            default: `(${new Date(Date.now()).getMonth() + 1}/${new Date(Date.now()).getDate()}) ${new Date(Date.now()).getHours() % 12}:${new Date(Date.now()).getMinutes()}${new Date(Date.now()).getHours() / 12 > 0 ? "PM" : "AM"}`
+            default: `(${new Date(Date.now()).getMonth() + 1}/${new Date(Date.now()).getDate()}) ${new Date(Date.now()).getHours()}:${new Date(Date.now()).getMinutes()}`
         }
     }]
 })

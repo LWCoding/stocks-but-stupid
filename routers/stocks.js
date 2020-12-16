@@ -1,14 +1,31 @@
 const express = require("express")
 const Stock = require("../models/stock")
+const News = require("../models/news")
 const auth = require("../middleware/auth")
 const schedule = require("node-schedule")
 const mongoose = require("mongoose")
+const positiveTitleGenerator = ["Breaking news! Economy in the '<>' sector is booming!",
+                                "Latest advancements in technology made in the '<>' sector; critics predict large increase in stocks.",
+                                "Recent rise in purchases regarding '<>'! Professionals are left baffled!",
+                                "Increase in productivity in '<>' mandatory to meet growing consumer demand!",
+                                "Famous celebrity endorses specific '<>' brand; people are left wanting more!",
+                                "'<>' suddenly becoming more optimal for solving new arising problems; sector estimated to explode!",
+                                "Rapid financial increase in the '<>' sector-- researchers are still determining the cause!"]
+const negativeTitleGenerator = ["Prices are clearly starting to suffer in the '<>' sector-- what can we do?",
+                                "Overproduction in the '<>' sector leading to low consumer demand; stock prices falling!",
+                                "'<>' starting to lower in intensity over the years. Will it be a future fad?",
+                                "Surprising drop in demand regarding products in the '<>' sector! Researchers are stunned!",
+                                "You won't believe this massive decline in the '<>' industry!",
+                                "Stocks are dropping IMMENSELY in the '<>' sector! You won't believe your eyes when you look at the stats!",
+                                "'<>' sector growth in neighboring countries leads to declining consumer demand in the area!"]
+
+const categories = ["Advertising", "Agriculture", "Airlines", "Aluminum", "Athletics & Recreation", "Auto & Vehicle Manufacturers", "Biotech", "Chemicals", "China & Glassware", "Oil & Gas", "Broadcasters", "Casinos/Gambling", "Media Producers", "Publishing", "Sports & Theme Parks", "Toys & Video Games", "TV & Internet Providers", "Fashion & Luxury", "Financial Marketplaces", "Grocery/Big Box Retailers", "Homebuilders", "Building Materials", "Manufacturing", "Metals", "Property & Casualty", "Investment Brokerage", "Medical Devices & Equipment", "Banks", "Restaurants", "Business Software", "Cybersecurity Software", "Solar Power", "Water", "Waste Disposal"]
 
 const alterStocks = async () => {
     const allStocks = await Stock.find({})
     allStocks.forEach(async (stock) => {
         if (stock.changes.length > 3) {
-            let average = 0
+            let average = 0;
             for (let i = 1; i < 4; i++) {
                 average += parseFloat(stock.changes[stock.changes.length - i].change)
             }
@@ -24,8 +41,13 @@ const alterStocks = async () => {
                 // Subtract 1.5x the previous percentage from average, 15% chance
                 average = average - (1.5 * stock.changes[stock.changes.length - 1].change)
             } else {
-                // 0.2-0.4% increase to current average, 20% chance
-                average += 0.3 + Math.random() / 5 - 0.1
+                // 0.1-0.3% increase to current average, 20% chance
+                average += 0.2 + Math.random() / 5 - 0.1
+            }
+            if (stock.eventRotation > 0) {
+                --stock.eventRotation;
+                // eventBoost will be amount of added % (Ex: 0.01 to 0.3)
+                average += stock.eventBoost * (Math.random() + 0.5)
             }
             average = parseFloat(average)
             stock.lastChange = average
@@ -40,11 +62,50 @@ const alterStocks = async () => {
     })
 }
 
+const newsHeadline = async () => {
+    const allNews = await News.find({})
+    if (allNews.length > 8) {
+        await News.findOneAndDelete({_id: allNews[0]._id})
+    }
+    let isPositive = (Math.random() > 5) ? true : false;
+    let category = categories[Math.round(Math.random() * (categories.length - 1))]
+    const stocks = await Stock.find({})
+    stocks.forEach(async (stock) => {
+        if (stock.category === category) {
+            stock.eventRotations = Math.round(Math.random() * 4 + 2)
+            stock.eventBoost = ((isPositive ? 1 : -1) * (Math.random() / 4 + 0.1)).toFixed(2)
+            await stock.save()
+        }
+    })
+    const news = new News({
+        title: (isPositive) ? positiveTitleGenerator[Math.round(Math.random() * (positiveTitleGenerator.length - 1))].replace("<>", category) : negativeTitleGenerator[Math.round(Math.random() * (negativeTitleGenerator.length - 1))].replace("<>", category)
+    })
+    await news.save()
+}
+
 schedule.scheduleJob("*/15 * * * *", function() {
     alterStocks()
 })
 
+schedule.scheduleJob("0 * * * * *", function() {
+    newsHeadline()
+})
+
 const stocksRouter = express.Router()
+
+stocksRouter.post("/get-news", async (req, res) => {
+    newsHeadline()
+    let allNews = await News.find({})
+    allNews.reverse()
+    allNews = allNews.map(news => {
+        return {
+            title: news.title,
+            description: news.description,
+            date: news.createdDate
+        }
+    })
+    return res.send({news: allNews})
+})
 
 stocksRouter.post("/make-stock", async (req, res) => {
     if (req.body.password !== process.env.STOCK_PASSWORD) return res.status(400).send()
@@ -53,7 +114,6 @@ stocksRouter.post("/make-stock", async (req, res) => {
     for (let i = 0; i < 4; i++) {
         code += letters[Math.round(Math.random() * (letters.length - 1))]
     }
-    categories = ["Advertising", "Agriculture", "Air Freight Services", "Air/Defense Services", "Airlines", "Aluminum", "Asset Management", "Athletics & Recreation", "Auto & Vehicle Manufacturers", "Auto Dealers & Rentals", "Auto Parts", "Beverages", "Biotech", "Chemicals", "China & Glassware", "Coal", "Consumer Financial Services", "Consumer Goods", "Drilling", "Oil & Gas", "Services", "Broadcasters", "Casinos/Gambling", "Media Producers", "Publishing", "Radio", "Sports & Theme Parks", "Toys & Video Games", "TV & Internet Providers", "Fashion & Luxury", "Financial Marketplaces", "Financial Services", "Food Makers", "Grocery/Big Box Retailers", "Home Improvement & Goods", "Homebuilders", "Building Materials", "Equipment", "Machinery", "Manufacturing", "Metals", "Packaging", "Paper", "Services", "Textiles", "Wood", "Accident & Supplemental", "Brokers", "Property & Casualty", "Reinsurance", "Internet Services", "Investment Brokerage", "Medical Consumer Goods", "Medical Devices & Equipment", "Medical Drug Stores", "Hospitals", "Pharmaceuticals", "Midwest Regional Banks", "Gold Miners", "Silver Miners", "Education Services", "Business Services", "Staffing Services", "Industrial Services", "Restaurants", "Semiconductor & Wireless Chip Services", "Software Applications", "Business Software", "Cybersecurity Software", "Solar Power", "Steel Manufacturing", "Tobacco", "Water", "Waste Disposal", "Cruises", "Trucking Freight", "Domestic Utilies", "Foreign Utilities"]
     try {
         const stock = new Stock({
             code,
@@ -110,7 +170,6 @@ stocksRouter.post("/sell-stock", auth, async (req, res) => {
     if (!stock) {
         return res.status(400).send({error: "Specified stock code was not found!"})
     }
-    let netMoney = 0
     let newList = []
     for (let i = 0; i < req.session.user.stocks.length; i++) {
         let userStock = req.session.user.stocks[i]
@@ -141,7 +200,7 @@ stocksRouter.post("/sell-stock", auth, async (req, res) => {
         }
     }
     await req.session.user.save()
-    return res.status(200).send({moneyMade: netMoney})
+    return res.status(200).send()
 })
 
 stocksRouter.post("/delete-stock", async (req, res) => {
