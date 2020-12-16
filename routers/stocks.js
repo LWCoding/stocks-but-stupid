@@ -114,6 +114,12 @@ stocksRouter.post("/make-news", async (req, res) => {
     return res.status(200).send()
 })
 
+stocksRouter.post("/trigger-stocks", async (req, res) => {
+    if (req.body.password !== process.env.STOCK_PASSWORD) return res.status(400).send()
+    await alterStocks()
+    return res.status(200).send()
+})
+
 stocksRouter.post("/make-stock", async (req, res) => {
     if (req.body.password !== process.env.STOCK_PASSWORD) return res.status(400).send()
     letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
