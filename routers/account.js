@@ -66,8 +66,8 @@ accountRouter.post("/user-worth", auth, (req, res) => {
     if (req.session.user.stocks.length === 0) {
         return res.status(200).send({worth})
     }
+    let i = 0
     req.session.user.stocks.forEach(async (stock) => {
-        let i = 0
         const stockWorth = await Stock.findOne({code: stock.stockCode})
         worth += stockWorth.price * stock.stockCount
         i += 1
