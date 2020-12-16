@@ -34,12 +34,13 @@ const alterStocks = async () => {
             if (randomChance > 0.55) {
                 // Vary the average slightly, 45% chance
                 average = (average * (1 + (Math.random() > 0.5 ? 1 : -1) * Math.random() / 20) + (Math.random() - 0.8)).toFixed(2)
-            } else if (randomChance > 0.35 && stock.eventRotations === 0) {
+            } else if (randomChance > 0.35) {
                 // 0.1-0.3% decrease to current average, 20% chance
                 average -= 0.2 + Math.random() / 5 - 0.1
-            } else if (randomChance > 0.2 && stock.eventRotations === 0) {
-                // Cut the average in half, 15% chance
+            } else if (randomChance > 0.2) {
+                // Cut the average in half and decrease by 0.1-0.2% average, 15% chance
                 average /= 2
+                average -= 0.15 + Math.random() / 10 - 0.05
             } else {
                 // 0.1-0.3% increase to current average, 20% chance
                 average += 0.2 + Math.random() / 5 - 0.1
