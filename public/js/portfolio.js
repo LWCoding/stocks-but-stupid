@@ -1,5 +1,3 @@
-var worthVal = 0
-
 const updateNotice = () => {
     fetch("/worth", {
         method: "POST",
@@ -14,20 +12,20 @@ const updateNotice = () => {
         let i = 0, found = false
         if (stockJson.stocks.length === 0) {
             if (json.exists) {
-                $("#notice").css("color", "green").html("Buying will cost $" + (json.price * (parseInt($("#stock-amount").val()) || 1)).toFixed(2) + ".").show()
+                $("#notice").css("color", "green").html("Buy Price: $" + (json.price * (parseInt($("#stock-amount").val()) || 1)).toFixed(2) + ". (You have $" + stockJson.balance.toFixed(2) + ".)").show()
                 $("#stock-sell").css("opacity", 0.3)
             }
         }
         stockJson.stocks.forEach((stock) => {
             if (stock.stockCode == $("#stock-name").text()) {
                 $("#stock-sell").css("opacity", 1)
-                $("#notice").css("color", "green").html("Buying will cost $" + (json.price * (parseInt($("#stock-amount").val()) || 1)).toFixed(2) + ". (You have " + worthVal + ".)<br>Selling will gain you a net worth of $" + ((json.price - stock.stockInitial) * ((($("#stock-amount").val() || 1) > stock.stockCount) ? stock.stockCount : parseInt($("#stock-amount").val() || 1))).toFixed(2) + ".<br>(You have " + stock.stockCount + " of that stock.)").show()
+                $("#notice").css("color", "green").html("Buy Price: $" + (json.price * (parseInt($("#stock-amount").val()) || 1)).toFixed(2) + ". (You have $" + stockJson.balance.toFixed(2) + ".)<br>Selling will gain you: $" + ((json.price - stock.stockInitial) * ((($("#stock-amount").val() || 1) > stock.stockCount) ? stock.stockCount : parseInt($("#stock-amount").val() || 1))).toFixed(2) + ".<br>(You have " + stock.stockCount + " of that stock.)").show()
                 found = true
             }
             i += 1
             if (!found && i == stockJson.stocks.length) {
                 if (json.exists) {
-                    $("#notice").css("color", "green").html("Buying will cost $" + (json.price * (parseInt($("#stock-amount").val()) || 1)).toFixed(2) + ". (You have " + worthVal + ".)").show()
+                    $("#notice").css("color", "green").html("Buy Price: $" + (json.price * (parseInt($("#stock-amount").val()) || 1)).toFixed(2) + ". (You have $" + stockJson.balance.toFixed(2) + ".)").show()
                     $("#stock-sell").css("opacity", 0.3)
                 }
             }
@@ -55,6 +53,37 @@ const fetchStocks = () => {
             $("#all-stocks").append(`<p style="font-size: 22px;">${stock.stockCode} x${stock.stockCount}<p style="font-size: 18px;">(Bought at $${stock.stockInitial.toFixed(2)})</p><p style="font-size: 18px;">(Currently $${currentPrice.price.toFixed(2)})</p><div style="height: 0.5em;">`)
         }
     })
+}
+
+const updateBalance = async () => {
+    const userRes = await fetch("/retrieve", {
+        method: "POST"
+    })
+    const userJson = await userRes.json()
+    const worthRes = await fetch("/user-worth", {
+        method: "POST"
+    })
+    const worthJson = await worthRes.json()
+    for(let i = 0; i < 101; i++) {
+        setTimeout(() => {
+            $("#balance-amount").text((userJson.balance) >= 0 ? "$" + (userJson.balance * (i / 100)).toFixed(2) : "-$" + Math.abs((userJson.balance * (i / 100)).toFixed(2)))
+        }, i * 10)
+    }
+    for(let i = 0; i < 101; i++) {
+        setTimeout(() => {
+            $("#worth-amount").text((worthJson.worth >= 0) ? "$" + (worthJson.worth * (i / 100)).toFixed(2) : "-$" + (Math.abs(worthJson.worth * (i / 100)).toFixed(2)))
+        }, i * 10)
+    }
+    if (parseFloat(userJson.balance) > 0) {
+        $("#balance-amount").css("color", "green")
+    } else {
+        $("#balance-amount").css("color", "red")
+    }
+    if (parseFloat(worthJson.worth) > 0 && parseFloat(worthJson.worth) >= parseFloat(userJson.balance)) {
+        $("#worth-amount").css("color", "green")
+    } else {
+        $("#worth-amount").css("color", "red")
+    }
 }
 
 window.onload = () => {
@@ -119,6 +148,7 @@ window.onload = () => {
                 $("#stock-sell").css("opacity", 0.3)
                 $("#stock-buy").css("opacity", 0.3)
                 fetchStocks()
+                updateBalance()
                 $("#notice").css("color", "green").text("Successfully purchased " + $("#stock-amount").val() + " of " + $("#stock-name").text() + "!").show()
                 $("#stock-amount").val("")
                 $("#stock-code").val("")
@@ -142,6 +172,7 @@ window.onload = () => {
                 $("#stock-sell").css("opacity", 0.3)
                 $("#stock-buy").css("opacity", 0.3)
                 fetchStocks()
+                updateBalance()
                 $("#notice").css("color", "green").text("Successfully sold " + $("#stock-amount").val() + " of " + $("#stock-name").text() + " for " + json.moneyMade.toFixed(2) + "!").show()
                 $("#stock-amount").val("")
                 $("#stock-code").val("")
@@ -151,67 +182,7 @@ window.onload = () => {
             }
         })
     })
-    fetch("/retrieve", { method: "POST" }).then(async (res) => {
-        const json = await res.json()
-        let worth = json.balance
-        for (let i = 0; i < json.stocks.length; i++) {
-            let stock = json.stocks[i]
-            fetch("/worth", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({code: stock.stockCode})
-            }).then(async (res) => {
-                const stockJson = await res.json()
-                worth += (stockJson.price - stock.stockInitial) * stock.stockCount
-                i += 1
-                if (i == json.stocks.length) {
-                    for(let i = 0; i < 101; i++) {
-                        setTimeout(() => {
-                            $("#balance-amount").text((json.balance) >= 0 ? "$" + (json.balance * (i / 100)).toFixed(2) : "-$" + Math.abs((json.balance * (i / 100)).toFixed(2)))
-                        }, i * 10)
-                    }
-                    for(let i = 0; i < 101; i++) {
-                        setTimeout(() => {
-                            worthVal = (worth >= 0) ? "$" + (worth * (i / 100)).toFixed(2) : "-$" + (Math.abs(worth * (i / 100)).toFixed(2))
-                            $("#worth-amount").text((worth >= 0) ? "$" + (worth * (i / 100)).toFixed(2) : "-$" + (Math.abs(worth * (i / 100)).toFixed(2)))
-                        }, i * 10)
-                    }
-                    if (parseFloat(json.balance) > 0) {
-                        $("#balance-amount").css("color", "green")
-                    } else {
-                        $("#balance-amount").css("color", "red")
-                    }
-                    if (parseFloat(worth) >= parseFloat(json.balance)) {
-                        $("#worth-amount").css("color", "green")
-                    } else {
-                        $("#worth-amount").css("color", "red")
-                    }
-                }
-            })
-        }
-        if (json.stocks.length === 0) {
-            for(let i = 0; i < 101; i++) {
-                setTimeout(() => {
-                    $("#balance-amount").text((json.balance) >= 0 ? "$" + (json.balance * (i / 100)).toFixed(2) : "-$" + Math.abs((json.balance * (i / 100)).toFixed(2)))
-                }, i * 10)
-            }
-            for(let i = 0; i < 101; i++) {
-                setTimeout(() => {
-                    $("#worth-amount").text((worth >= 0) ? "$" + (worth * (i / 100)).toFixed(2) : "-$" + (Math.abs(worth * (i / 100)).toFixed(2)))
-                }, i * 10)
-            }
-            if (parseFloat(json.balance) > 0) {
-                $("#balance-amount").css("color", "green")
-            } else {
-                $("#balance-amount").css("color", "red")
-            }
-            if (parseFloat(worth) >= parseFloat(json.balance)) {
-                $("#worth-amount").css("color", "green")
-            } else {
-                $("#worth-amount").css("color", "red")
-            }
-        }
-    })
+    updateBalance()
     $(".bone").css("opacity", 1)
     $(".done").show()
     $(".bone").click(() => {

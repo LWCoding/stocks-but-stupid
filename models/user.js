@@ -50,6 +50,13 @@ userSchema.methods.generateAuthToken = async function() {
     return token
 }
 
+userSchema.pre("save", async function(next) {
+    if (this.isModified("balance")) {
+        this.balance = this.balance.toFixed(2)
+    }
+    next()
+})  
+
 const userModel = mongoose.model("User", userSchema)
 
 module.exports = userModel

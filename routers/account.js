@@ -63,15 +63,23 @@ accountRouter.post("/retrieve", async (req, res) => {
 
 accountRouter.post("/user-worth", auth, (req, res) => {
     let worth = req.session.user.balance
+    if (req.session.user.stocks.length === 0) {
+        return res.status(200).send({worth})
+    }
     req.session.user.stocks.forEach(async (stock) => {
         let i = 0
         const stockWorth = await Stock.findOne({code: stock.stockCode})
-        worth += (stockWorth.price - stock.stockInitial) * stock.stockCount
+        worth += stockWorth.price * stock.stockCount
         i += 1
         if (i == req.session.user.stocks.length) {
             return res.status(200).send({worth})
         }
     })
+})
+
+accountRouter.post("/richest", async (req, res) => {
+    const richest = await User.find({}).sort({"balance": -1}).limit(3)
+    return res.status(200).send(richest)
 })
 
 module.exports = accountRouter

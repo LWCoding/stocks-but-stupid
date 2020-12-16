@@ -16,7 +16,7 @@ const alterStocks = async () => {
             let randomChance = Math.random()
             if (randomChance > 0.4) {
                 // Vary the average slightly, 60% chance
-                average = (average * (1 + (Math.random() > 0.5 ? 1 : -1) * Math.random() / 20)).toFixed(2)
+                average = (average * (1 + (Math.random() > 0.5 ? 1 : -1) * Math.random() / 20) + (Math.random() - 1)).toFixed(2)
             } else if (randomChance > 0.25) {
                 // Add 1.5x the previous percentage to average, 15% chance
                 average = average + (1.5 * stock.changes[stock.changes.length - 1].change)
@@ -77,6 +77,10 @@ stocksRouter.post("/purchase-stock", auth, async (req, res) => {
     if (!stock) {
         return res.status(400).send({error: "Specified stock code was not found!"})
     }
+    if (stock.price * parseInt(req.body.count) > req.session.user.balance) {
+        return res.status(400).send({error: "Not enough funds to buy those stocks!"})
+    }
+    req.session.user.balance -= parseInt(stock.price) * parseInt(req.body.count)
     let exists = false
     for (let i = 0; i < req.session.user.stocks.length; i++) {
         let userStock = req.session.user.stocks[i]
@@ -88,6 +92,7 @@ stocksRouter.post("/purchase-stock", auth, async (req, res) => {
     }
     if (!exists || req.session.user.stocks.length === 0) {
         req.session.user.stocks.push({
+            _id: new mongoose.Types.ObjectId,
             stockCode: req.body.code,
             stockCount: req.body.count,
             stockInitial: stock.price
@@ -109,7 +114,7 @@ stocksRouter.post("/sell-stock", auth, async (req, res) => {
     let newList = []
     for (let i = 0; i < req.session.user.stocks.length; i++) {
         let userStock = req.session.user.stocks[i]
-        let limit = (req.body.count > userStock.stockCount) ? userStock.stockCount : req.body.count
+        let limit = (req.body.count > userStock.stockCount) ? userStock.stockCount : parseInt(req.body.count)
         if (userStock.stockCode === req.body.code && limit == userStock.stockCount) {
             netMoney = (stock.price - userStock.stockInitial) * limit
             userStock.stockCount -= limit
@@ -131,6 +136,7 @@ stocksRouter.post("/sell-stock", auth, async (req, res) => {
                 })
             }
         }
+        console.log(newList)
         if (i == req.session.user.stocks.length - 1) {
             req.session.user.stocks = newList
         }

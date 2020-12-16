@@ -60,6 +60,11 @@ input[type=text], input[type=number] {
     padding: 0.25em;
     font-size: 14px;
     font-family: "Montserrat";
+    width: 6em;
+}
+
+#stock-code {
+    margin-left: 1.2em;
 }
 
 #stock-buy, #stock-sell {
@@ -75,6 +80,7 @@ input[type=text], input[type=number] {
 #notice {
     display: none;
     font-size: 20px;
+    padding: 0 0.8em;
     margin-top: 1em;
 }
 
@@ -114,9 +120,6 @@ input[type=text], input[type=number] {
     #balance-amount, #worth-amount {
         font-size: 44px !important;
     }
-    #stock-code {
-        width: 11em;
-    }
 }
 
 @media only screen and (max-width: 550px) {
@@ -133,8 +136,8 @@ input[type=text], input[type=number] {
     }
     .display {
         width: 80vw !important;
-        height: 58vh;
-        margin-top: 7vh;
+        height: 65vh;
+        margin-top: 4vh;
     }
 }
 
