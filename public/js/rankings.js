@@ -11,9 +11,9 @@ window.onload = async () => {
         opacity: 1
     }, 500)
     $("#winner").text(winner.length > 0 ? winner[0].username : "Nobody")
-    $("#winner-cash").text(winner.length > 0 ? winner[0].balance : "N/A")
+    $("#winner-cash").text(winner.length > 0 ? winner[0].balance.toFixed(2) : "N/A")
     $("#second-place").text(winner.length > 1 ? winner[1].username : "Nobody")
-    $("#second-place-cash").text(winner.length > 1 ? winner[1].balance : "N/A")
+    $("#second-place-cash").text(winner.length > 1 ? winner[1].balance.toFixed(2) : "N/A")
     $("#third-place").text(winner.length > 2 ? winner[2].username : "Nobody")
-    $("#third-place-cash").text(winner.length > 2 ? winner[2].balance : "N/A")
+    $("#third-place-cash").text(winner.length > 2 ? winner[2].balance.toFixed(2) : "N/A")
 }
