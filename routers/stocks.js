@@ -33,14 +33,18 @@ const alterStocks = async () => {
             let randomChance = Math.random()
             if (randomChance > 0.55) {
                 // Vary the average slightly, 45% chance
-                average = (average * (1 + (Math.random() > 0.5 ? 1 : -1) * Math.random() / 20) + (Math.random() - 0.8)).toFixed(2)
+                average = (average * (1 + (Math.random() > 0.5 ? 1 : -1) * Math.random() / 20) + (Math.random() - 0.5)).toFixed(2)
             } else if (randomChance > 0.35) {
                 // 0.1-0.3% decrease to current average, 20% chance
                 average -= 0.2 + Math.random() / 5 - 0.1
             } else if (randomChance > 0.2) {
-                // Cut the average in half and decrease by 0.1-0.2% average, 15% chance
+                // Cut the average in half and decrease/increase by 0.1-0.2% average, 15% chance
                 average /= 2
-                average -= 0.15 + Math.random() / 10 - 0.05
+                if (average > 0) {
+                    average -= 0.15 + Math.random() / 10 - 0.05
+                } else {
+                    average += 0.15 + Math.random() / 10 - 0.05
+                }
             } else {
                 // 0.1-0.3% increase to current average, 20% chance
                 average += 0.2 + Math.random() / 5 - 0.1
@@ -68,19 +72,26 @@ const newsHeadline = async () => {
     if (allNews.length > 8) {
         await News.findOneAndDelete({_id: allNews[0]._id})
     }
+    let affectAllCategories = (Math.random() > 0.9) ? true : false;
     let isPositive = (Math.random() > 0.5) ? true : false;
     let category = categories[Math.round(Math.random() * (categories.length - 1))]
     const stocks = await Stock.find({})
     stocks.forEach(async (stock) => {
-        if (stock.category === category) {
+        if (stock.category === category || affectAllCategories) {
             stock.eventRotations = Math.round(Math.random() * 4 + 2)
             stock.eventBoost = ((isPositive ? 1 : -1) * (Math.random() / 4 + 0.2)).toFixed(2)
             await stock.save()
         }
     })
+    let title = ""
+    if (affectAllCategories) {
+        title = (isPositive) ? "Investment in all sectors increasing rapidly after new economy supplements implemented by government!" : "Stock market crash currently affecting all sectors and industries! Citizens panic about financial issues!"
+    } else {
+        title = (isPositive) ? positiveTitleGenerator[Math.round(Math.random() * (positiveTitleGenerator.length - 1))].replace("<>", category) : negativeTitleGenerator[Math.round(Math.random() * (negativeTitleGenerator.length - 1))].replace("<>", category)
+    }
     let curr = new Date(Date.now())
     const news = new News({
-        title: (isPositive) ? positiveTitleGenerator[Math.round(Math.random() * (positiveTitleGenerator.length - 1))].replace("<>", category) : negativeTitleGenerator[Math.round(Math.random() * (negativeTitleGenerator.length - 1))].replace("<>", category),
+        title,
         createdDate: `${curr.toDateString().substring(4)}, ${curr.getHours() < 10 ? "0" : ""}${curr.getHours()}:${curr.getMinutes() < 10 ? "0" : ""}${curr.getMinutes()}`
     })
     await news.save()
