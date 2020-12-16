@@ -89,7 +89,7 @@ schedule.scheduleJob("*/15 * * * *", function() {
     alterStocks()
 })
 
-schedule.scheduleJob("0 * * * * *", function() {
+schedule.scheduleJob("0 * * * *", function() {
     newsHeadline()
 })
 
