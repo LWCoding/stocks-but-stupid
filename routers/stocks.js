@@ -49,7 +49,7 @@ const alterStocks = async () => {
                 // eventBoost will be amount of added % (Ex: 0.01 to 0.3)
                 average += stock.eventBoost * (Math.random() + 0.5)
             }
-            average = parseFloat(average)
+            average = parseFloat(average).toFixed(2)
             stock.lastChange = average
             stock.price = (stock.price + (stock.price * (average / 100))).toFixed(2)
         } else {
@@ -67,7 +67,7 @@ const newsHeadline = async () => {
     if (allNews.length > 8) {
         await News.findOneAndDelete({_id: allNews[0]._id})
     }
-    let isPositive = (Math.random() > 5) ? true : false;
+    let isPositive = (Math.random() > 0.5) ? true : false;
     let category = categories[Math.round(Math.random() * (categories.length - 1))]
     const stocks = await Stock.find({})
     stocks.forEach(async (stock) => {
