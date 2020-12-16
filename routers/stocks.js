@@ -79,7 +79,7 @@ const newsHeadline = async () => {
     })
     const news = new News({
         title: (isPositive) ? positiveTitleGenerator[Math.round(Math.random() * (positiveTitleGenerator.length - 1))].replace("<>", category) : negativeTitleGenerator[Math.round(Math.random() * (negativeTitleGenerator.length - 1))].replace("<>", category),
-        date: `${new Date(Date.now()).toDateString().substring(4)}, ${new Date(Date.now()).getHours()}:${new Date(Date.now()).getMinutes()}`
+        date: `${new Date(Date.now()).toDateString().substring(4)}, ${new Date(Date.now()).getHours().toFixed(2)}:${new Date(Date.now()).getMinutes().toFixed(2)}`
     })
     await news.save()
 }
