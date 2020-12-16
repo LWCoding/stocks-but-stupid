@@ -136,7 +136,7 @@ input[type=text], input[type=number] {
     }
     .display {
         width: 80vw !important;
-        height: 65vh;
+        height: 60vh;
         margin-top: 4vh;
     }
 }
