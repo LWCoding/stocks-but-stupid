@@ -44,7 +44,7 @@ stockSchema.methods.recordCurrentStock = async function() {
         change: this.lastChange,
         date: `(${curr.getMonth + 1 < 10 ? "0" : ""}${curr.getMonth() + 1}/${curr.getDate()}) ${curr.getHours < 10 ? "0" : ""}${curr.getHours()}:${curr.getMinutes() < 10 ? "0": ""}${curr.getMinutes()}`
     })
-    if (this.changes.length > 10) {
+    if (this.changes.length > 8) {
         this.changes.shift()
     }
     return

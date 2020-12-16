@@ -29,17 +29,17 @@ const alterStocks = async () => {
             for (let i = 1; i < 4; i++) {
                 average += parseFloat(stock.changes[stock.changes.length - i].change)
             }
-            average = (average / 3).toFixed(2)
+            average = (average / 3)
             let randomChance = Math.random()
-            if (randomChance > 0.5) {
-                // Vary the average slightly, 50% chance
+            if (randomChance > 0.55) {
+                // Vary the average slightly, 45% chance
                 average = (average * (1 + (Math.random() > 0.5 ? 1 : -1) * Math.random() / 20) + (Math.random() - 0.8)).toFixed(2)
             } else if (randomChance > 0.35 && stock.eventRotations === 0) {
-                // Add 1.5x the previous percentage to average, 15% chance
-                average = average + (1.5 * stock.changes[stock.changes.length - 1].change)
+                // 0.1-0.3% decrease to current average, 20% chance
+                average -= 0.2 + Math.random() / 5 - 0.1
             } else if (randomChance > 0.2 && stock.eventRotations === 0) {
-                // Subtract 1.5x the previous percentage from average, 15% chance
-                average = average - (1.5 * stock.changes[stock.changes.length - 1].change)
+                // Cut the average in half, 15% chance
+                average /= 2
             } else {
                 // 0.1-0.3% increase to current average, 20% chance
                 average += 0.2 + Math.random() / 5 - 0.1
