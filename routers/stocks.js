@@ -77,9 +77,10 @@ const newsHeadline = async () => {
             await stock.save()
         }
     })
+    let curr = new Date(Date.now())
     const news = new News({
         title: (isPositive) ? positiveTitleGenerator[Math.round(Math.random() * (positiveTitleGenerator.length - 1))].replace("<>", category) : negativeTitleGenerator[Math.round(Math.random() * (negativeTitleGenerator.length - 1))].replace("<>", category),
-        date: `${new Date(Date.now()).toDateString().substring(4)}, ${new Date(Date.now()).getHours().toFixed(2)}:${new Date(Date.now()).getMinutes().toFixed(2)}`
+        createdDate: `${curr.toDateString().substring(4)}, ${curr.getHours() < 10 ? "0" : ""}${curr.getHours()}:${curr.getMinutes() < 10 ? "0" : ""}${curr.getMinutes()}`
     })
     await news.save()
 }
@@ -109,7 +110,7 @@ stocksRouter.post("/get-news", async (req, res) => {
 
 stocksRouter.post("/make-news", async (req, res) => {
     if (req.body.password !== process.env.STOCK_PASSWORD) return res.status(400).send()
-    newsHeadline()
+    await newsHeadline()
     return res.status(200).send()
 })
 
