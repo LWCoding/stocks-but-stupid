@@ -44,8 +44,8 @@ const alterStocks = async () => {
                 // 0.1-0.3% increase to current average, 20% chance
                 average += 0.2 + Math.random() / 5 - 0.1
             }
-            if (stock.eventRotation > 0) {
-                --stock.eventRotation;
+            if (stock.eventRotations > 0) {
+                --stock.eventRotations;
                 // eventBoost will be amount of added % (Ex: 0.01 to 0.3)
                 average += stock.eventBoost * (Math.random() + 0.5)
             }
