@@ -34,10 +34,10 @@ const alterStocks = async () => {
             if (randomChance > 0.5) {
                 // Vary the average slightly, 50% chance
                 average = (average * (1 + (Math.random() > 0.5 ? 1 : -1) * Math.random() / 20) + (Math.random() - 0.8)).toFixed(2)
-            } else if (randomChance > 0.35) {
+            } else if (randomChance > 0.35 && stock.eventRotation === 0) {
                 // Add 1.5x the previous percentage to average, 15% chance
                 average = average + (1.5 * stock.changes[stock.changes.length - 1].change)
-            } else if (randomChance > 0.2) {
+            } else if (randomChance > 0.2 && stock.eventRotation === 0) {
                 // Subtract 1.5x the previous percentage from average, 15% chance
                 average = average - (1.5 * stock.changes[stock.changes.length - 1].change)
             } else {
@@ -73,7 +73,7 @@ const newsHeadline = async () => {
     stocks.forEach(async (stock) => {
         if (stock.category === category) {
             stock.eventRotations = Math.round(Math.random() * 4 + 2)
-            stock.eventBoost = ((isPositive ? 1 : -1) * (Math.random() / 4 + 0.1)).toFixed(2)
+            stock.eventBoost = ((isPositive ? 1 : -1) * (Math.random() / 4 + 0.2)).toFixed(2)
             await stock.save()
         }
     })
