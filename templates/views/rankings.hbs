@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/general.css">
+    <style>
+        #first, #second, #third {
+            opacity: 0;
+        }
+    </style>
     <title>Stocks but Stupid - Rankings</title>
 </head>
 <body>
@@ -11,9 +16,9 @@
     <img id="thumbnail" style="height: 100vh;" src="./img/trophy.jpg" alt="Rankings thumbnail">
     <div id="thumbnail-cover" style="height: 100vh;"></div>
     <div id="message">
-        <p style="font-size: 33px; margin-bottom: 20px;"><span style="color: rgb(5, 13, 78);" id="winner"></span> is <span style="color: rgb(255, 217, 0);">on top</span> of the stock market with $<span style="color: rgb(0, 196, 0);" id="winner-cash"></span>!</p>
-        <p style="font-size: 33px; margin-bottom: 20px;"><span style="color: rgb(5, 13, 78);" id="second-place"></span> is <span style="color: rgb(255, 217, 0);">in second place</span> with $<span style="color: rgb(0, 196, 0);" id="second-place-cash"></span>!</p>
-        <p style="font-size: 33px;"><span style="color: rgb(5, 13, 78);" id="third-place"></span> is <span style="color: rgb(255, 217, 0);">in third place</span> with $<span style="color: rgb(0, 196, 0);" id="third-place-cash"></span>!</p>
+        <p id="first" style="font-size: 33px; margin-bottom: 20px;"><span style="color: rgb(5, 13, 78);" id="winner"></span> is <span style="color: rgb(255, 217, 0);">on top</span> of the stock market with $<span style="color: rgb(0, 196, 0);" id="winner-cash"></span>!</p>
+        <p id="second" style="font-size: 33px; margin-bottom: 20px;"><span style="color: rgb(5, 13, 78);" id="second-place"></span> is <span style="color: rgb(255, 217, 0);">in second place</span> with $<span style="color: rgb(0, 196, 0);" id="second-place-cash"></span>!</p>
+        <p id="third" style="font-size: 33px;"><span style="color: rgb(5, 13, 78);" id="third-place"></span> is <span style="color: rgb(255, 217, 0);">in third place</span> with $<span style="color: rgb(0, 196, 0);" id="third-place-cash"></span>!</p>
     </div>
     <script src="./js/rankings.js"></script>
 </body>
