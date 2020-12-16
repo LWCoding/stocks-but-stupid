@@ -33,14 +33,15 @@ const stockSchema = mongoose.Schema({
         },
         date: {
             type: String,
-            default: `(${new Date(Date.now()).getMonth() + 1}/${new Date(Date.now()).getDate()}) ${new Date(Date.now()).getHours()}:${new Date(Date.now()).getMinutes()}`
+            required: true
         }
     }]
 })
 
 stockSchema.methods.recordCurrentStock = async function() {
     this.changes.push({
-        change: this.lastChange
+        change: this.lastChange,
+        date: `(${new Date(Date.now()).getMonth() + 1}/${new Date(Date.now()).getDate()}) ${new Date(Date.now()).getHours()}:${new Date(Date.now()).getMinutes()}`
     })
     if (this.changes.length > 10) {
         this.changes.shift()

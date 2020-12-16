@@ -7,7 +7,7 @@ const newsSchema = mongoose.Schema({
     },
     createdDate: {
         type: String,
-        default: `${new Date(Date.now()).toDateString().substring(4)}, ${new Date(Date.now()).getHours()}:${new Date(Date.now()).getMinutes()}`
+        required: true
     }
 })
 

@@ -78,7 +78,8 @@ const newsHeadline = async () => {
         }
     })
     const news = new News({
-        title: (isPositive) ? positiveTitleGenerator[Math.round(Math.random() * (positiveTitleGenerator.length - 1))].replace("<>", category) : negativeTitleGenerator[Math.round(Math.random() * (negativeTitleGenerator.length - 1))].replace("<>", category)
+        title: (isPositive) ? positiveTitleGenerator[Math.round(Math.random() * (positiveTitleGenerator.length - 1))].replace("<>", category) : negativeTitleGenerator[Math.round(Math.random() * (negativeTitleGenerator.length - 1))].replace("<>", category),
+        date: `${new Date(Date.now()).toDateString().substring(4)}, ${new Date(Date.now()).getHours()}:${new Date(Date.now()).getMinutes()}`
     })
     await news.save()
 }
@@ -94,7 +95,6 @@ schedule.scheduleJob("0 * * * * *", function() {
 const stocksRouter = express.Router()
 
 stocksRouter.post("/get-news", async (req, res) => {
-    newsHeadline()
     let allNews = await News.find({})
     allNews.reverse()
     allNews = allNews.map(news => {
