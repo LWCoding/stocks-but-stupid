@@ -1,6 +1,19 @@
+const showDisplay = async (code) => {
+    $("#overlay-stock-name").text(code);
+    $("#past-changes").empty();
+    const stockRes = await fetch("/worth", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({code}) });
+    const stockJson = await stockRes.json();
+    const changes = stockJson.changes;
+    for (let i = 0; i < changes.length; i++) {
+        let change = changes[i]
+        $("#past-changes").append(`<p class="overlay-change">${change.date}: <span style="color: ${parseFloat(change.change) > 0 ? "green" : "red"};">${change.change}%</span></p>`);
+    }
+    $("#overlay").fadeIn(500);
+}
+
 const appendStock = (code, price, change, category) => {
     $("#market").append(`
-        <div class="stock">
+        <div class="stock" onclick="showDisplay('${code}');">
             <h2 class="code">${code}</h2>
             <p style="color: rgba(0, 0, 0, 0.6);" class="category">${(category)}</p>
             <p class="price">$${price.toFixed(2)}</p>
@@ -10,7 +23,7 @@ const appendStock = (code, price, change, category) => {
 }
 
 var skip = 0
-var limit = 20
+var limit = 15
 
 const fetchStocks = (skipChange) => {
     skip += skipChange
@@ -38,13 +51,13 @@ window.onload = () => {
             return
         }
         $("#next-page").attr({"buttonDisabled": "false"})
-        fetchStocks(-20)
+        fetchStocks(-15)
     })
     $("#next-page").click(() => {
         if ($("#next-page").attr("buttonDisabled") == "true") {
             return
         }
         $("#prev-page").attr({"buttonDisabled": "false"})
-        fetchStocks(20)
+        fetchStocks(15)
     })
 }

@@ -14,6 +14,59 @@
     height: 9em;
 }
 
+.stock:hover {
+    cursor: pointer;
+}
+
+#overlay {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 3;
+    display: none;
+}
+
+#overlay-msg {
+    width: 300px;
+    height: 400px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border-radius: 30px;
+    z-index: 4;
+    text-align: center;
+}
+
+#overlay-stock-name {
+    font-size: 42px;
+    font-family: "Montserrat";
+    font-weight: 700;
+    margin: 32px 0 16px 0;
+}
+
+#past-changes {
+    margin-top: 16px;
+    max-height: 170px;
+    overflow-y: scroll;
+}
+
+#close {
+    position: absolute;
+    top: calc(50% + 145px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    margin: 0 auto;
+    background: rgb(223, 17, 17);
+    border-radius: 30px;
+}
+
 .stock * {
     text-align: center;
 }

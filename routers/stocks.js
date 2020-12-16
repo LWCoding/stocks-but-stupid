@@ -14,18 +14,18 @@ const alterStocks = async () => {
             }
             average = (average / 3).toFixed(2)
             let randomChance = Math.random()
-            if (randomChance > 0.4) {
-                // Vary the average slightly, 60% chance
+            if (randomChance > 0.5) {
+                // Vary the average slightly, 50% chance
                 average = (average * (1 + (Math.random() > 0.5 ? 1 : -1) * Math.random() / 20) + (Math.random() - 0.8)).toFixed(2)
-            } else if (randomChance > 0.25) {
+            } else if (randomChance > 0.35) {
                 // Add 1.5x the previous percentage to average, 15% chance
                 average = average + (1.5 * stock.changes[stock.changes.length - 1].change)
-            } else if (randomChance > 0.1) {
+            } else if (randomChance > 0.2) {
                 // Subtract 1.5x the previous percentage from average, 15% chance
                 average = average - (1.5 * stock.changes[stock.changes.length - 1].change)
             } else {
-                // 1.8x current average, 10% chance
-                average *= 1.8
+                // 0.2-0.4% increase to current average, 20% chance
+                average += 0.3 + Math.random() / 5 - 0.1
             }
             average = parseFloat(average)
             stock.lastChange = average
@@ -167,11 +167,18 @@ stocksRouter.get("/stocks", async (req, res) => {
 
 stocksRouter.post("/worth", async (req, res) => {
     const stock = await Stock.findOne({ code: req.body.code })
+    const correctChanges = (stock === null) ? [] : stock.changes.map((x) => {
+        return {
+            change: x.change.toFixed(2),
+            date: x.date
+        }
+    })
     return res.status(200).send({
         exists: stock !== null, 
         price: (stock === null) ? 0 : stock.price, 
         change: (stock === null) ? 0 : stock.lastChange, 
-        category: (stock === null) ? "None" : stock.category
+        category: (stock === null) ? "None" : stock.category,
+        changes: (stock === null) ? [] : correctChanges
     })
 })
 

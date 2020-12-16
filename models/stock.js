@@ -25,7 +25,7 @@ const stockSchema = mongoose.Schema({
         },
         date: {
             type: String,
-            default: new Date(Date.now()).toDateString().substring(4)
+            default: `(${new Date(Date.now()).getMonth() + 1}/${new Date(Date.now()).getDate()}) ${new Date(Date.now()).getHours() % 12}:${new Date(Date.now()).getMinutes()}${new Date(Date.now()).getHours() / 12 > 0 ? "PM" : "AM"}`
         }
     }]
 })

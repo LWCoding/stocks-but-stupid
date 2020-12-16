@@ -16,13 +16,24 @@
         <p style="font-size: 36px;">View the latest changes in the virtual stock market!</p>
     </div>
     <div class="divider"></div>
-    <div style="height: auto; margin: 4vh 3vw; padding: 1vh 1vw; background: white;">
+    <p style="margin: 3vh 0; font-size: 20px; font-weight: 700; text-align: center;">Click on a stock to view past fluctuation history!</p>
+    <div style="height: auto; margin: 0 3vw 4vh 3vw; padding: 1vh 1vw; background: white;">
         <div id="market">
             <h2 style="margin-top: 2em; margin-bottom: 2em; width: 91.5vw; text-align: center;">Loading assets... Please wait...</h2>
         </div>
         <div style="text-align: center;">
             <button id="prev-page"  buttonDisabled="true" style="margin-right: 0.5em;">Previous Page</button>
             <button id="next-page" buttonDisabled="false" style="margin-left: 0.5em;">Next Page</button>
+        </div>
+    </div>
+    <div id="overlay">
+        <div id="overlay-msg">
+            <p id="overlay-stock-name"></p>
+            <p style="font-size: 20px;">Past Changes:</p>
+            <div id="past-changes">
+
+            </div>
+            <button id="close" onclick="$('#overlay').fadeOut(500)">Close</button>
         </div>
     </div>
     <script defer src="./js/market.js"></script>
