@@ -16,7 +16,7 @@ const alterStocks = async () => {
             let randomChance = Math.random()
             if (randomChance > 0.4) {
                 // Vary the average slightly, 60% chance
-                average = (average * (1 + (Math.random() > 0.5 ? 1 : -1) * Math.random() / 20) + (Math.random() - 1)).toFixed(2)
+                average = (average * (1 + (Math.random() > 0.5 ? 1 : -1) * Math.random() / 20) + (Math.random() - 0.8)).toFixed(2)
             } else if (randomChance > 0.25) {
                 // Add 1.5x the previous percentage to average, 15% chance
                 average = average + (1.5 * stock.changes[stock.changes.length - 1].change)
