@@ -34,22 +34,22 @@ const alterStocks = async () => {
             if (randomChance > 0.5) {
                 // Vary the average slightly, 50% chance
                 average = (average * (1 + (Math.random() > 0.5 ? 1 : -1) * Math.random() / 20) + (Math.random() - 0.8)).toFixed(2)
-            } else if (randomChance > 0.35 && stock.eventRotation === 0) {
+            } else if (randomChance > 0.35 && stock.eventRotations === 0) {
                 // Add 1.5x the previous percentage to average, 15% chance
                 average = average + (1.5 * stock.changes[stock.changes.length - 1].change)
-            } else if (randomChance > 0.2 && stock.eventRotation === 0) {
+            } else if (randomChance > 0.2 && stock.eventRotations === 0) {
                 // Subtract 1.5x the previous percentage from average, 15% chance
                 average = average - (1.5 * stock.changes[stock.changes.length - 1].change)
             } else {
                 // 0.1-0.3% increase to current average, 20% chance
                 average += 0.2 + Math.random() / 5 - 0.1
             }
+            average = parseFloat(average)
             if (stock.eventRotations > 0) {
                 --stock.eventRotations;
                 // eventBoost will be amount of added % (Ex: 0.01 to 0.3)
-                average += stock.eventBoost * (Math.random() + 0.5)
+                average += parseFloat(stock.eventBoost) * (Math.random() + 0.5)
             }
-            average = parseFloat(average).toFixed(2)
             stock.lastChange = average
             stock.price = (stock.price + (stock.price * (average / 100))).toFixed(2)
         } else {
