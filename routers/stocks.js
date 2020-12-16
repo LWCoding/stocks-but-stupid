@@ -116,15 +116,15 @@ stocksRouter.post("/sell-stock", auth, async (req, res) => {
         let userStock = req.session.user.stocks[i]
         let limit = (req.body.count > userStock.stockCount) ? userStock.stockCount : parseInt(req.body.count)
         if (userStock.stockCode === req.body.code && limit == userStock.stockCount) {
-            netMoney = (stock.price - userStock.stockInitial) * limit
             userStock.stockCount -= limit
-            req.session.user.balance += netMoney
+            req.session.user.balance += stock.price * limit
         } else {
             if (userStock.stockCode === req.body.code) {
+                req.session.user.balance += stock.price * limit
                 newList.push({
                     _id: new mongoose.Types.ObjectId,
-                    stockCode: userStock.stockCode - limit,
-                    stockCount: userStock.stockCount,
+                    stockCode: userStock.stockCode,
+                    stockCount: userStock.stockCount - parseInt(limit),
                     stockInitial: userStock.stockInitial
                 })
             } else {
@@ -136,7 +136,6 @@ stocksRouter.post("/sell-stock", auth, async (req, res) => {
                 })
             }
         }
-        console.log(newList)
         if (i == req.session.user.stocks.length - 1) {
             req.session.user.stocks = newList
         }
