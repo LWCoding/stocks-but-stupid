@@ -168,7 +168,6 @@ window.onload = () => {
             })
         }).then(async (res) => {
             if (res.ok) {
-                const json = await res.json()
                 $("#stock-sell").css("opacity", 0.3)
                 $("#stock-buy").css("opacity", 0.3)
                 fetchStocks()
