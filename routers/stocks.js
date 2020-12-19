@@ -67,7 +67,7 @@ const alterStocks = async () => {
         await stock.save()
     })
     const allUsers = await User.find({})
-    allUsers.forEach((user) => {
+    allUsers.forEach(async (user) => {
         let i = 0, worth = user.balance
         if (user.stocks.length === 0) {
             await user.save()
