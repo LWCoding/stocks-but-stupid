@@ -69,6 +69,9 @@ const alterStocks = async () => {
     const allUsers = await User.find({})
     allUsers.forEach((user) => {
         let i = 0, worth = user.balance
+        if (user.stocks.length === 0) {
+            await user.save()
+        }
         user.stocks.forEach(async (stock) => {
             const stockWorth = await Stock.findOne({code: stock.stockCode})
             worth += stockWorth.price * stock.stockCount

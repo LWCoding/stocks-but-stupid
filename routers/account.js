@@ -65,7 +65,7 @@ accountRouter.post("/retrieve", async (req, res) => {
 })
 
 accountRouter.post("/richest", async (req, res) => {
-    const richest = await User.find({}).sort({"worth": 1}).limit(3)
+    const richest = await User.find({}).sort({"worth": -1}).limit(3)
     return res.status(200).send(richest)
 })
 
