@@ -80,8 +80,8 @@ const alterStocks = async () => {
                 user.worth = parseFloat(worth.toFixed(2))
                 if (worth > user.highestWorth) {
                     user.highestWorth = parseFloat(worth.toFixed(2))
-                    await user.save()
                 }
+                await user.save()
             }
         })
     })

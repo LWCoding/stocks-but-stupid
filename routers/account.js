@@ -69,24 +69,15 @@ accountRouter.post("/richest", async (req, res) => {
     return res.status(200).send(richest)
 })
 
-const getStockPrices = async (stocks) => {
-    let gain = 0
-    for (let i = 0; i < stocks.length; i++) {
-        const stock = await Stock.findOne({code: stocks[i].stockCode})
-        gain += stock.price * stocks[i].stockCount
-    }
-    return gain
-}
-
-accountRouter.post("/reset-user-stocks", async (req, res) => {
+accountRouter.post("/update", async (req, res) => {
     if (req.body.password !== process.env.STOCK_PASSWORD) return res.status(400).send()
-    const allUsers = await User.find({})
-    allUsers.forEach(async (user) => {
-        user.balance += await getStockPrices(user.stocks)
-        user.stocks = []
-        await user.save()
+    const allStocks = await Stock.find({})
+    allStocks.forEach(async (stock) => {
+        while (stock.changes.length > 8) {
+            stock.changes.shift()
+        }
+        await stock.save()
     })
-    
     return res.status(200).send()
 })
 
