@@ -43,6 +43,9 @@ accountRouter.post("/login", detectXSS, async (req, res) => {
     if (!passwordsMatch) {
         return res.status(400).send({error: "Username or password is incorrect."})
     }
+    let date = new Date()
+    let cookieExpiryDate = new Date(date.getFullYear() + 1, date.getMonth(), date.getDay())
+    req.session.cookie.expires = cookieExpiryDate
     const token = await preexistingUser.generateAuthToken()
     req.session.token = token
     return res.status(200).send()
@@ -61,24 +64,8 @@ accountRouter.post("/retrieve", async (req, res) => {
     return res.status(200).send(req.session.user)
 })
 
-accountRouter.post("/user-worth", auth, (req, res) => {
-    let worth = req.session.user.balance
-    if (req.session.user.stocks.length === 0) {
-        return res.status(200).send({worth})
-    }
-    let i = 0
-    req.session.user.stocks.forEach(async (stock) => {
-        const stockWorth = await Stock.findOne({code: stock.stockCode})
-        worth += stockWorth.price * stock.stockCount
-        i += 1
-        if (i == req.session.user.stocks.length) {
-            return res.status(200).send({worth})
-        }
-    })
-})
-
 accountRouter.post("/richest", async (req, res) => {
-    const richest = await User.find({}).sort({"balance": -1}).limit(3)
+    const richest = await User.find({}).sort({"worth": 1}).limit(3)
     return res.status(200).send(richest)
 })
 
@@ -100,6 +87,11 @@ accountRouter.post("/reset-user-stocks", async (req, res) => {
         await user.save()
     })
     
+    return res.status(200).send()
+})
+
+accountRouter.post("/logout", (req, res) => {
+    req.session.destroy()
     return res.status(200).send()
 })
 

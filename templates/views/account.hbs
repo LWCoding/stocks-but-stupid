@@ -4,10 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/general.css">
+    <link rel="stylesheet" href="./css/account.css">
     <title>Stocks but Stupid - Your Account</title>
 </head>
 <body>
     {{>navbar}}
-    <h1>account thing</h1>
+    <img id="thumbnail" style="height: 100vh;" src="./img/account.jpg" alt="Account thumbnail" loading="lazy">
+    <div id="thumbnail-cover" style="height: 100vh;"></div>
+    <div id="message">
+        <div id="account-details">
+            <h1>Account</h1>
+            <p>Username: <span id="username"></span></p>
+            <p>Total Stocks Bought: <span id="total-stocks"></span></p>
+            <p>Most Money in Wallet: <span id="highest-money"></span></p>
+            <p>Most Worth in Wallet: <span id="highest-worth"></span></p>
+            <button id="logout" style="background: red;" onclick="fetch('/logout', {method: 'POST'}); window.location.href = '/'">Logout</button>
+        </div>
+    </div>
+    <script src="./js/account.js"></script>
 </body>
 </html>

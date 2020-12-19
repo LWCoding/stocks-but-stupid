@@ -1,0 +1,46 @@
+#account-details {
+    margin: 0 auto;
+    min-width: 250px;
+    width: 50vw;
+    height: 60vh;
+    background: rgba(255, 255, 255, 0.8);
+    color: black;
+    border-radius: 10vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    word-break: break-word;
+}
+
+#account-details > h1 {
+    font-size: 44px;
+    margin-bottom: 12px;
+}
+
+#account-details > p {
+    font-size: 18px;
+    padding: 0 2em;
+    margin: 3px 0;
+}
+
+#username, #total-stocks {
+    color: rgb(68, 68, 216);
+}
+
+#highest-money, #highest-worth {
+    color: green;
+}
+
+#logout {
+    margin-top: 16px;
+}
+
+@media only screen and (max-width: 630px) {
+    #account-details > h1 {
+        font-size: 32px;
+    }
+    #account-details > p {
+        font-size: 16px;
+    }
+}

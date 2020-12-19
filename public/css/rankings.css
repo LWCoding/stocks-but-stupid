@@ -1,0 +1,29 @@
+#first, #second, #third {
+    opacity: 0;
+    font-size: 33px;
+}
+
+#winner, #second-place, #third-place {
+    word-wrap: break-word;
+    color: rgb(5, 13, 78);
+}
+
+#winner-cash, #second-place-cash, #third-place-cash {
+    color: rgb(0, 196, 0);
+}
+
+.place {
+    color: rgb(255, 217, 0);
+}
+
+@media only screen and (max-width: 800px) {
+    #message > p {
+        font-size: 29px;
+    }   
+}
+
+@media only screen and (max-width: 600px) {
+    #message > p {
+        font-size: 24px;
+    }   
+}

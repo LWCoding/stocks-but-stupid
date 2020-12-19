@@ -23,7 +23,7 @@ navRouter.get("/rankings", (req, res) => {
     res.render("rankings.hbs")
 })
 
-navRouter.get("/account", (req, res) => {
+navRouter.get("/account", auth, (req, res) => {
     res.render("account.hbs")
 })
 

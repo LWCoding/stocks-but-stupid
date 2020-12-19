@@ -1,5 +1,6 @@
 const express = require("express")
 const Stock = require("../models/stock")
+const User = require("../models/user")
 const News = require("../models/news")
 const auth = require("../middleware/auth")
 const schedule = require("node-schedule")
@@ -65,6 +66,22 @@ const alterStocks = async () => {
         await stock.recordCurrentStock()
         await stock.save()
     })
+    const allUsers = await User.find({})
+    allUsers.forEach((user) => {
+        let i = 0, worth = user.balance
+        user.stocks.forEach(async (stock) => {
+            const stockWorth = await Stock.findOne({code: stock.stockCode})
+            worth += stockWorth.price * stock.stockCount
+            i += 1
+            if (i == user.stocks.length) {
+                user.worth = parseFloat(worth.toFixed(2))
+                if (worth > user.highestWorth) {
+                    user.highestWorth = parseFloat(worth.toFixed(2))
+                    await user.save()
+                }
+            }
+        })
+    })
 }
 
 const newsHeadline = async () => {
@@ -97,7 +114,7 @@ const newsHeadline = async () => {
     await news.save()
 }
 
-schedule.scheduleJob("*/15 * * * *", function() {
+schedule.scheduleJob("*/30 * * * *", function() {
     alterStocks()
 })
 
@@ -165,6 +182,7 @@ stocksRouter.post("/purchase-stock", auth, async (req, res) => {
     if (stock.price * parseInt(req.body.count) > req.session.user.balance) {
         return res.status(400).send({error: "Not enough funds to buy those stocks!"})
     }
+    req.session.user.stocksBought += parseInt(req.body.count)
     req.session.user.balance -= parseInt(stock.price) * parseInt(req.body.count)
     let exists = false
     for (let i = 0; i < req.session.user.stocks.length; i++) {
@@ -223,6 +241,9 @@ stocksRouter.post("/sell-stock", auth, async (req, res) => {
         if (i == req.session.user.stocks.length - 1) {
             req.session.user.stocks = newList
         }
+    }
+    if (req.session.user.balance > req.session.user.highestMoney) {
+        req.session.user.highestMoney = req.session.user.balance
     }
     await req.session.user.save()
     return res.status(200).send()

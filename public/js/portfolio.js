@@ -60,10 +60,6 @@ const updateBalance = async () => {
         method: "POST"
     })
     const userJson = await userRes.json()
-    const worthRes = await fetch("/user-worth", {
-        method: "POST"
-    })
-    const worthJson = await worthRes.json()
     for(let i = 0; i < 101; i++) {
         setTimeout(() => {
             $("#balance-amount").text((userJson.balance) >= 0 ? "$" + (userJson.balance * (i / 100)).toFixed(2) : "-$" + Math.abs((userJson.balance * (i / 100)).toFixed(2)))
@@ -71,7 +67,7 @@ const updateBalance = async () => {
     }
     for(let i = 0; i < 101; i++) {
         setTimeout(() => {
-            $("#worth-amount").text((worthJson.worth >= 0) ? "$" + (worthJson.worth * (i / 100)).toFixed(2) : "-$" + (Math.abs(worthJson.worth * (i / 100)).toFixed(2)))
+            $("#worth-amount").text((userJson.worth >= 0) ? "$" + (userJson.worth * (i / 100)).toFixed(2) : "-$" + (Math.abs(userJson.worth * (i / 100)).toFixed(2)))
         }, i * 10)
     }
     if (parseFloat(userJson.balance) > 0) {
@@ -79,7 +75,7 @@ const updateBalance = async () => {
     } else {
         $("#balance-amount").css("color", "red")
     }
-    if (parseFloat(worthJson.worth) > 0 && parseFloat(worthJson.worth) >= parseFloat(userJson.balance)) {
+    if (parseFloat(userJson.worth) > 0 && parseFloat(userJson.worth) >= parseFloat(userJson.balance)) {
         $("#worth-amount").css("color", "green")
     } else {
         $("#worth-amount").css("color", "red")

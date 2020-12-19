@@ -19,6 +19,22 @@ const userSchema = mongoose.Schema({
         type: Number,
         default: 10000
     },
+    worth: {
+        type: Number,
+        default: 10000
+    },
+    stocksBought: {
+        type: Number,
+        default: 0
+    },
+    highestMoney: {
+        type: Number,
+        default: 10000
+    },
+    highestWorth: {
+        type: Number,
+        default: 10000
+    },
     stocks: [{
         stockCode: {
             type: String,
